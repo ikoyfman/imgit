@@ -1,4 +1,5 @@
 from django.db import models
+# from django.urls import reverse
 from django.contrib.auth.models import User
 
 
@@ -14,6 +15,10 @@ class Gallery(models.Model):
     def __str__(self):
         return self.title
 
+    # TODO build absolute url
+    # def get_absolute_url(self):
+    #     return reverse('')
+
 
 class Image(models.Model):
     gallery_id = models.ForeignKey(Gallery, on_delete=models.CASCADE)
@@ -23,5 +28,6 @@ class Image(models.Model):
 
 class Comment(models.Model):
     created_on = models.DateTimeField(auto_now_add=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     gallery_id = models.ForeignKey(Gallery, on_delete=models.CASCADE)
     text = models.TextField(null=False)
