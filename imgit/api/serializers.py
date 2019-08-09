@@ -18,10 +18,21 @@ class GallerySerializer(serializers.HyperlinkedModelSerializer):
 class ImageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Image
-        fields = ['gallery_id', 'img', 'created_on']
+        fields = [
+            'gallery_id',
+            'img',
+            'created_on'
+            ]
 
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Comment
-        fields = ['created_on', 'author', 'gallery_id', 'text']
+        fields = [
+            'created_on',
+            'author',
+            'gallery_id',
+            'text',
+            'prev_comment',
+            'level'
+            ]
