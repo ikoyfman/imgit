@@ -34,3 +34,9 @@ class Comment(models.Model):
         null=True
         )
     level = models.IntegerField(default=0, blank=False)
+
+
+class Upvote(models.Model):
+    gallery_id = models.ForeignKey(Gallery, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    
