@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from imgit.imgit_app.models import Gallery, Image, Comment
+from imgit_app.models import Gallery, Image, Comment
 from rest_framework import serializers
 
 
@@ -24,4 +24,4 @@ class ImageSerializer(serializers.HyperlinkedModelSerializer):
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Comment
-        fields = ['gallery_id', 'author', 'created_on', 'modified_on']
+        fields = ['created_on', 'author', 'gallery_id', 'text']
