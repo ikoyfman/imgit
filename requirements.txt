@@ -1,3 +1,4 @@
 Django==2.2.4
 freezegun==0.3.12
 djangorestframework==3.10.2
+Pillow==6.1.0
