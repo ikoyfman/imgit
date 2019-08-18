@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from imgit_app.models import Gallery, Image, Comment
 from rest_framework import serializers
+from rest_framework.validators import ValidationError
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -10,6 +11,14 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class GallerySerializer(serializers.HyperlinkedModelSerializer):
+    def validate(self, data):
+
+        # Check if user id is equal object id before creation or if SuperUser
+        request = self.context.get('request')
+        if request.user.id != data['author'].id and request.user.is_superuser != True:
+            raise ValidationError("Unauthorized User Post")
+        return data
+
     class Meta:
         model = Gallery
         fields = ['title', 'author', 'created_on', 'modified_on']

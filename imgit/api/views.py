@@ -8,7 +8,7 @@ from api.serializers import (
 )
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .permissions import is_author_or_admin
+from .permissions import is_author_or_admin, is_selfuser
 
 # Create your views here.
 
@@ -27,7 +27,7 @@ class GalleryViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         permissions = [IsAuthenticatedOrReadOnly()]
-        if self.action in ['update', 'partial_update', 'destroy']:
+        if self.action in ['update', 'partial_update', 'destroy', 'create']:
             permissions += [is_author_or_admin()]
         return permissions
 
