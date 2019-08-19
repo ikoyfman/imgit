@@ -7,7 +7,7 @@ from rest_framework.validators import ValidationError
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ["url", "username", "email", "groups"]
+        fields = ["url", "username", "email", "groups", "id"]
 
 
 class GallerySerializer(serializers.HyperlinkedModelSerializer):
@@ -21,16 +21,16 @@ class GallerySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Gallery
-        fields = ["title", "author", "created_on", "modified_on"]
+        fields = ["title", "author", "created_on", "modified_on", "id"]
 
 
 class ImageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Image
-        fields = ["gallery_id", "img", "created_on"]
+        fields = ["gallery_id", "img", "created_on", "id"]
 
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Comment
-        fields = ["created_on", "author", "gallery_id", "text", "prev_comment", "level"]
+        fields = ["created_on", "author", "gallery_id", "text", "prev_comment", "level", "id"]

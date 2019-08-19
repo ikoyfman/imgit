@@ -11,9 +11,9 @@ from imgit_app.models import Comment, Gallery, Image, Upvote
 
 # Tests Below
 
+
 @freeze_time("2019-08-14 12:00:00")
 class ImgitTestCase(TestCase):
-
     def setUp(self):
         # SETUP USERS AND TOKENS
         self.user_1 = User.objects.create(username="test")
@@ -92,14 +92,17 @@ class ImgitTestCase(TestCase):
                 "username": "test",
                 "email": "",
                 "groups": [],
+                "id": 1,
             },
             {
                 "url": "http://testserver/api/users/2/",
                 "username": "admin",
                 "email": "",
                 "groups": [],
+                "id": 2,
             },
         ]
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), expected)
 
@@ -120,12 +123,14 @@ class ImgitTestCase(TestCase):
                 "author": "http://testserver/api/users/1/",
                 "created_on": "2019-08-14T12:00:00Z",
                 "modified_on": "2019-08-14T12:00:00Z",
+                "id": 1,
             },
             {
                 "title": "test_gallery200",
                 "author": "http://testserver/api/users/2/",
                 "created_on": "2019-08-14T12:00:00Z",
                 "modified_on": "2019-08-14T12:00:00Z",
+                "id": 2,
             },
         ]
 
@@ -142,12 +147,14 @@ class ImgitTestCase(TestCase):
                 "author": "http://testserver/api/users/1/",
                 "created_on": "2019-08-14T12:00:00Z",
                 "modified_on": "2019-08-14T12:00:00Z",
+                "id": 1,
             },
             {
                 "title": "test_gallery200",
                 "author": "http://testserver/api/users/2/",
                 "created_on": "2019-08-14T12:00:00Z",
                 "modified_on": "2019-08-14T12:00:00Z",
+                "id": 2,
             },
         ]
 
@@ -182,6 +189,7 @@ class ImgitTestCase(TestCase):
             "author": "http://testserver/api/users/1/",
             "created_on": "2019-08-14T12:00:00Z",
             "modified_on": "2019-08-14T12:00:00Z",
+            "id": 3,
         }
 
         self.assertEqual(response.status_code, 201)
@@ -199,7 +207,7 @@ class ImgitTestCase(TestCase):
             **header_user1
         )
 
-        expected = {'non_field_errors': ['Unauthorized User Post']}
+        expected = {"non_field_errors": ["Unauthorized User Post"]}
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json(), expected)
 
