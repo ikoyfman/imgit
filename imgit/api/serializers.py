@@ -15,7 +15,7 @@ class GallerySerializer(serializers.HyperlinkedModelSerializer):
 
         # Check if user id is equal object id before creation or if SuperUser
         request = self.context.get("request")
-        if request.user.id != data["author"].id and request.user.is_superuser != True:
+        if request.user.id != data["author"].id and request.user.is_superuser is not True:
             raise ValidationError("Unauthorized User Post")
         return data
 

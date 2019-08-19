@@ -13,7 +13,7 @@ from imgit_app.models import Comment, Gallery, Image, Upvote
 
 @freeze_time("2019-08-14 12:00:00")
 class ImgitTestCase(TestCase):
-    
+
     def setUp(self):
         # SETUP USERS AND TOKENS
         self.user_1 = User.objects.create(username="test")
