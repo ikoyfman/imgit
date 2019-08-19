@@ -11,9 +11,9 @@ from imgit_app.models import Comment, Gallery, Image, Upvote
 
 # Tests Below
 
-
+@freeze_time("2019-08-14 12:00:00")
 class ImgitTestCase(TestCase):
-    @freeze_time("2019-08-14 12:00:00")
+    
     def setUp(self):
         # SETUP USERS AND TOKENS
         self.user_1 = User.objects.create(username="test")
@@ -79,12 +79,8 @@ class ImgitTestCase(TestCase):
         self.assertEqual(response.json(), expected)
 
     def test_user_auth_user_view(self):
-        header_user1 = {
-            "HTTP_AUTHORIZATION": "Token {}".format(self.token_user1)
-            }
-        header_admin = {
-            "HTTP_AUTHORIZATION": "Token {}".format(self.token_admin)
-            }
+        header_user1 = {"HTTP_AUTHORIZATION": "Token {}".format(self.token_user1)}
+        header_admin = {"HTTP_AUTHORIZATION": "Token {}".format(self.token_admin)}
 
         # Test admin view
         response = self.client.get(
@@ -111,9 +107,7 @@ class ImgitTestCase(TestCase):
         response = self.client.get(
             "/api/users/", content_type="application/json", **header_user1
         )
-        expected = {
-            'detail': 'You do not have permission to perform this action.'
-            }
+        expected = {"detail": "You do not have permission to perform this action."}
         self.assertEqual(response.status_code, 403)
         self.assertEqual(response.json(), expected)
 
@@ -140,9 +134,7 @@ class ImgitTestCase(TestCase):
 
     def test_user_auth_gallery_view(self):
         """ Use token to test gallery view """
-        header_admin = {
-            "HTTP_AUTHORIZATION": "Token {}".format(self.token_admin)
-            }
+        header_admin = {"HTTP_AUTHORIZATION": "Token {}".format(self.token_admin)}
         response = self.client.get("/api/galleries/", **header_admin)
         expected = [
             {
@@ -163,11 +155,55 @@ class ImgitTestCase(TestCase):
         self.assertEqual(response.json(), expected)
 
     def test_gallery_creation_no_auth(self):
-        
+        """ Should fail no auth """
+        test_1 = {"title": "test_2", "author": "http://127.0.0.1:8000/api/users/1/"}
+        response = self.client.post(
+            "/api/galleries/", data=test_1, content_type="application/json"
+        )
+        expected = {"detail": "Authentication credentials were not provided."}
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json(), expected)
+
+    def test_gallery_creation_token_auth(self):
+        # Testing admin creation
+        test_1 = {"title": "test_1", "author": "http://127.0.0.1:8000/api/users/1/"}
+
+        header_admin = {"HTTP_AUTHORIZATION": "Token {}".format(self.token_admin)}
+
+        response = self.client.post(
+            "/api/galleries/",
+            data=test_1,
+            content_type="application/json",
+            **header_admin
+        )
+
+        expected = {
+            "title": "test_1",
+            "author": "http://testserver/api/users/1/",
+            "created_on": "2019-08-14T12:00:00Z",
+            "modified_on": "2019-08-14T12:00:00Z",
+        }
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json(), expected)
+
+        # Testing user creation for admin, should fail
+        test_2 = {"title": "test_2", "author": "http://127.0.0.1:8000/api/users/2/"}
+
+        header_user1 = {"HTTP_AUTHORIZATION": "Token {}".format(self.token_user1)}
+
+        response = self.client.post(
+            "/api/galleries/",
+            data=test_2,
+            content_type="application/json",
+            **header_user1
+        )
+
+        expected = {'non_field_errors': ['Unauthorized User Post']}
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json(), expected)
 
     def test_user_image_upload_post(self):
-        header_user1 = {
-            "HTTP_AUTHORIZATION": "Token {}".format(self.token_user1)
-            }
-        img_1_path = Path('/imgit/api/temp_files/temp1.gif')
+        header_user1 = {"HTTP_AUTHORIZATION": "Token {}".format(self.token_user1)}
+        img_1_path = Path("/imgit/api/temp_files/temp1.gif")
         # TODO Finish writing test_user_image_upload

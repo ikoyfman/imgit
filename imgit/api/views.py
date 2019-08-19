@@ -8,7 +8,7 @@ from api.serializers import (
 )
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .permissions import is_author_or_admin, is_selfuser
+from .permissions import is_author_or_admin
 
 # Create your views here.
 

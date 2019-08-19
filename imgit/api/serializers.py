@@ -7,41 +7,30 @@ from rest_framework.validators import ValidationError
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['url', 'username', 'email', 'groups']
+        fields = ["url", "username", "email", "groups"]
 
 
 class GallerySerializer(serializers.HyperlinkedModelSerializer):
     def validate(self, data):
 
         # Check if user id is equal object id before creation or if SuperUser
-        request = self.context.get('request')
-        if request.user.id != data['author'].id and request.user.is_superuser != True:
+        request = self.context.get("request")
+        if request.user.id != data["author"].id and request.user.is_superuser != True:
             raise ValidationError("Unauthorized User Post")
         return data
 
     class Meta:
         model = Gallery
-        fields = ['title', 'author', 'created_on', 'modified_on']
+        fields = ["title", "author", "created_on", "modified_on"]
 
 
 class ImageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Image
-        fields = [
-            'gallery_id',
-            'img',
-            'created_on'
-            ]
+        fields = ["gallery_id", "img", "created_on"]
 
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Comment
-        fields = [
-            'created_on',
-            'author',
-            'gallery_id',
-            'text',
-            'prev_comment',
-            'level'
-            ]
+        fields = ["created_on", "author", "gallery_id", "text", "prev_comment", "level"]
