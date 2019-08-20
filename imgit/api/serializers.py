@@ -10,9 +10,16 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ["url", "username", "email", "groups", "id"]
 
 
-class GallerySerializer(serializers.HyperlinkedModelSerializer):
-    def validate(self, data):
+class ImageSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Image
+        fields = ["gallery_id", "img", "created_on", "id"]
 
+
+class GallerySerializer(serializers.HyperlinkedModelSerializer):
+    image = ImageSerializer(many=True, read_only=True, source='image_set')
+
+    def validate(self, data):
         # Check if user id is equal object id before creation or if SuperUser
         request = self.context.get("request")
         if request.user.id != data["author"].id and request.user.is_superuser is not True:
@@ -21,13 +28,7 @@ class GallerySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Gallery
-        fields = ["title", "author", "created_on", "modified_on", "id"]
-
-
-class ImageSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Image
-        fields = ["gallery_id", "img", "created_on", "id"]
+        fields = ["title", "author", "created_on", "modified_on", "id", "image"]
 
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):

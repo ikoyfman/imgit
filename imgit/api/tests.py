@@ -124,6 +124,7 @@ class ImgitTestCase(TestCase):
                 "created_on": "2019-08-14T12:00:00Z",
                 "modified_on": "2019-08-14T12:00:00Z",
                 "id": 1,
+                "image": [],
             },
             {
                 "title": "test_gallery200",
@@ -131,6 +132,7 @@ class ImgitTestCase(TestCase):
                 "created_on": "2019-08-14T12:00:00Z",
                 "modified_on": "2019-08-14T12:00:00Z",
                 "id": 2,
+                "image": [],
             },
         ]
 
@@ -148,6 +150,7 @@ class ImgitTestCase(TestCase):
                 "created_on": "2019-08-14T12:00:00Z",
                 "modified_on": "2019-08-14T12:00:00Z",
                 "id": 1,
+                "image": [],
             },
             {
                 "title": "test_gallery200",
@@ -155,6 +158,7 @@ class ImgitTestCase(TestCase):
                 "created_on": "2019-08-14T12:00:00Z",
                 "modified_on": "2019-08-14T12:00:00Z",
                 "id": 2,
+                "image": [],
             },
         ]
 
@@ -190,6 +194,7 @@ class ImgitTestCase(TestCase):
             "created_on": "2019-08-14T12:00:00Z",
             "modified_on": "2019-08-14T12:00:00Z",
             "id": 3,
+            "image": [],
         }
 
         self.assertEqual(response.status_code, 201)
