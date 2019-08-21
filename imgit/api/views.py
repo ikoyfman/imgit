@@ -38,7 +38,7 @@ class ImageViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         permissions = [IsAuthenticatedOrReadOnly()]
-        if self.action in ['update', 'partial_update', 'destroy']:
+        if self.action in ['update', 'partial_update', 'destroy', 'create']:
             permissions += [is_author_or_admin()]
         return permissions
 

@@ -3,11 +3,14 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from pathlib import Path
 
-import pdb
-from django.core.files.uploadedfile import SimpleUploadedFile
 from freezegun import freeze_time
+import tempfile, json, base64
+from PIL import Image as pilimage
+from pathlib import Path
+
 
 from imgit_app.models import Comment, Gallery, Image, Upvote
+from .serializers import GallerySerializer
 
 # Tests Below
 
@@ -217,6 +220,22 @@ class ImgitTestCase(TestCase):
         self.assertEqual(response.json(), expected)
 
     def test_user_image_upload_post(self):
-        header_user1 = {"HTTP_AUTHORIZATION": "Token {}".format(self.token_user1)}
-        img_1_path = Path("/imgit/api/temp_files/temp1.gif")
+        header_admin = {"HTTP_AUTHORIZATION": "Token {}".format(self.token_admin)}
+        #img_1_path = Path("/imgit/api/temp_files/temp1.gif")
         # TODO Finish writing test_user_image_upload
+        tmp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+        tmp_image = pilimage.new('RGB', (100, 100))
+        tmp_file = Path(tmp_file)
+        tmp_file = open(tmp_file, 'rb')
+        import pdb; pdb.set_trace()
+        response = self.client.post(
+            "api/images",
+            data={
+                "gallery": "http://127.0.0.1:8000/api/galleries/{}/".format("2"),
+                "img": tmp_file
+            },
+            content_type="application/json",
+            **header_admin
+        )
+        import pdb; pdb.set_trace()
+        self.assertEqual(tmp_image)
