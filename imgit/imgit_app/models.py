@@ -17,7 +17,7 @@ class Gallery(models.Model):
 
 
 class Image(models.Model):
-    gallery_id = models.ForeignKey(Gallery, on_delete=models.CASCADE)
+    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE)
     img = models.ImageField(upload_to='images/')
     created_on = models.DateTimeField(auto_now_add=True, blank=True)
 

@@ -13,7 +13,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class ImageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Image
-        fields = ["gallery_id", "img", "created_on", "id"]
+        fields = ["gallery", "img", "created_on", "id"]
 
 
 class GallerySerializer(serializers.HyperlinkedModelSerializer):
