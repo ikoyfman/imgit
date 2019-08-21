@@ -221,13 +221,14 @@ class ImgitTestCase(TestCase):
 
     def test_user_image_upload_post(self):
         header_admin = {"HTTP_AUTHORIZATION": "Token {}".format(self.token_admin)}
-        #img_1_path = Path("/imgit/api/temp_files/temp1.gif")
+        
+        img_1_path = Path("api/temp_files/temp1.gif")
         # TODO Finish writing test_user_image_upload
-        tmp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
-        tmp_image = pilimage.new('RGB', (100, 100))
-        tmp_file = Path(tmp_file)
-        tmp_file = open(tmp_file, 'rb')
-        import pdb; pdb.set_trace()
+        # tmp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+        # tmp_image = pilimage.new('RGB', (100, 100))
+        # tmp_file = Path(tmp_file)
+        tmp_file = open(img_1_path, 'rb')
+        
         response = self.client.post(
             "api/images",
             data={
